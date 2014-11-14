@@ -1,0 +1,296 @@
+Template.menu.created = function () {
+	Session.set("toolbar", "dayPicker");
+}
+
+Template.menu.rendered = function () {
+	if (Session.get("firstLoad")) {
+		Session.set("firstLoad", false);
+		setDiningHall("Thorne");
+		setToCurrentMeal();
+	} else {
+		setMeal(Session.get("meal"));
+	}
+
+	setDate(0);
+	loadMenu();
+
+	var currentFilter = Session.get("filter");
+	if (currentFilter == null || currentFilter == "Off") {
+		enableFilter("Off");
+	} else {
+		enableFilter(currentFilter);
+	}
+}
+
+Template.menu.helpers({
+	courseNames: function () {
+		return Session.get("courseNames") || [];
+	},
+	getCourse: function (courseName) {
+		var courses = Session.get("courses");
+		var course = courses[courseName];
+		var filter = Session.get("filter");
+
+		//if we have a filter set, make sure items presented comply
+		if (course != null && filter != null && filter != "Off") {
+			var filteredCourse = course.slice(0); //make a copy of the menu to remove from
+			var removedCount = 0;
+			for (var i = 0; i < course.length; i++) {
+				var item = course[i];
+
+				//if item does not pass filter, remove from course
+				if (!(item.attributes.indexOf(filter) >= 0 || (filter == "V" && item.attributes.indexOf("VE") >= 0))) {
+					filteredCourse.splice(i - removedCount, 1);
+					removedCount++;
+				}
+			}
+			course = filteredCourse;
+		}
+		return course || [];
+	},
+	formatList: function (attributes) {
+		return attributes.join(", ");
+	},
+});
+
+Template.menu.events({
+	//meal pickers
+	'click #Breakfast': function () {
+		setMeal("Breakfast");
+		loadMenu();
+	},
+	'click #Brunch': function () {
+		setMeal("Brunch");
+		loadMenu();
+	},
+	'click #Lunch': function () {
+		setMeal("Lunch");
+		loadMenu();
+	},
+	'click #Dinner': function () {
+		setMeal("Dinner");
+		loadMenu();
+	},
+
+	//show/hide diet filters
+	'click .cornerLink': function () {
+		$(".filters").slideToggle();
+		if ($(".cornerLink").hasClass("ion-funnel")) {
+			$(".cornerLink").removeClass("ion-funnel").addClass("ion-close");
+			$("#content").scrollTop(0);
+		} else {
+			$(".cornerLink").removeClass("ion-close").addClass("ion-funnel");
+		}
+	},
+
+	//diet filters
+	'click #V': function () {
+		enableFilter("V");
+	},
+	'click #VE': function () {
+		enableFilter("VE");
+	},
+	'click #NGI': function () {
+		enableFilter("NGI");
+	},
+	'click #L': function () {
+		enableFilter("L");
+	},
+	'click #Off': function () {
+		enableFilter("Off");
+	}
+});
+
+setMeal = function (meal) {
+	Session.set("meal", meal);
+
+	$("#Breakfast,#Brunch,#Lunch,#Dinner").removeClass("active");
+	$("#" + meal).addClass("active");
+}
+
+setDate = function (delta) {
+	var offset = Session.get("dateOffset") + delta;
+	Session.set("dateOffset", offset);
+
+	//handles date offset and button status
+	switch (offset) {
+	case 0:
+		$("#back").attr("disabled", true);
+		break;
+	case 6:
+		$("#forward").attr("disabled", true);
+		break;
+	default:
+		$("#back").removeAttr("disabled");
+		$("#forward").removeAttr("disabled");
+		break;
+	}
+
+	//handles setting proper title for day
+	var date = new Date(); //get current date
+	date.setDate(date.getDate() + Session.get("dateOffset")); //get target date
+	var day = date.getDay();
+
+	switch (Session.get("dateOffset")) {
+	case 0:
+		Session.set("dayName", "Today");
+		break;
+	case 1:
+		Session.set("dayName", "Tomorrow");
+		break;
+	default:
+		Session.set("dayName", dayOfWeek(day));
+		break;
+	}
+
+	if (day == 0 || day == 6) {
+		$("#Brunch").parent().show();
+		$("#Breakfast").parent().hide();
+		$("#Lunch").parent().hide();
+		if (!$("#Dinner").hasClass("active")) {
+			setMeal("Brunch");
+		}
+	} else {
+		$("#Brunch").parent().hide();
+		$("#Breakfast").parent().show();
+		$("#Lunch").parent().show();
+		if ($("#Brunch").hasClass("active")) {
+			setMeal("Breakfast");
+		}
+	}
+}
+
+setToCurrentMeal = function () {
+	var now = new Date();
+	var hours = now.getHours();
+	var day = now.getDay();
+	if (hours < 11 && day > 0 && day < 6)
+		setMeal("Breakfast");
+	else if (hours < 14) {
+		if (day === 0 || day === 6)
+			setMeal("Brunch");
+		else
+			setMeal("Lunch");
+	} else setMeal("Dinner");
+}
+
+loadMenu = function () {
+	$("#Breakfast,#Brunch,#Lunch,#Dinner").attr("disabled", true);
+	//get target date info
+	var date = new Date(); //get current date
+	var offset = Session.get("dateOffset"); //get target date offset
+	date.setDate(date.getDate() + offset); //get target date
+	var day = date.getDay() + 1; //store target day of week
+
+	//get date info of most recent Sunday to target
+	var sunday = new Date(date);
+	sunday.setDate(sunday.getDate() - day); //get target date
+	var sYear = sunday.getFullYear();
+	var sMonth = sunday.getMonth();
+	var sDay = sunday.getDate() + 1;
+
+	var filename = sYear + "-" + sMonth + "-" + sDay + "-" + day;
+	var localCopy = localStorage.getItem(filename); //Session.get(filename);
+
+	if (!localCopy) {
+		$("body").append("<div class='spinner'></div>");
+		Meteor.call("getMenu", sYear, sMonth, sDay, day, function (error, result) {
+			if (result) {
+				localStorage.setItem(filename, result.content); //cache xml
+				parseMenu(result.content);
+			} else {
+				alert(error);
+			}
+		});
+		$(".spinner").remove();
+	} else {
+		parseMenu(localCopy);
+	}
+	$("#Breakfast,#Brunch,#Lunch,#Dinner").removeAttr("disabled");
+}
+
+parseMenu = function (xmlString) {
+	//get desired menu info
+	var locationId = Session.get("locationId");
+	var meal = Session.get("meal");
+
+	xmlDoc = $.parseXML(xmlString);
+	$xml = $(xmlDoc);
+
+	var courses = {};
+	$xml.find("#" + meal + ">#" + locationId + ">menu>record").each(function (index) {
+		var course = $(this).find("course").text();
+		var itemName = $(this).find("webLongName").text();
+		var dietPattern = /\bNGI\b|\bVE\b|\bV\b|\bL\b/;
+		var dietAttributes = [];
+		while (found = dietPattern.exec(itemName)) {
+			itemName = itemName.replace(dietPattern, "");
+			dietAttributes.push(found.shift());
+		}
+		while (found = /\(|\)/.exec(itemName)) {
+			itemName = itemName.replace(/\(|\)/, "");
+		}
+
+		var item = {
+			name: itemName,
+			attributes: dietAttributes
+		};
+
+		if (courses[course] == null) {
+			courses[course] = [item];
+		} else {
+			courses[course].push(item);
+		}
+	});
+
+	Session.set("courses", courses);
+	Session.set("courseNames", Object.keys(courses));
+	$("#content").scrollTop(0);
+}
+
+enableFilter = function (filter) {
+	Session.set("filter", filter);
+	localStorage.setItem("filter", filter);
+	$("#V,#VE,#Off,#NGI,#L").removeClass("active");
+	$("#" + filter).addClass("active");
+}
+
+dayOfWeek = function (i) {
+	var day;
+	switch (i) {
+	case 0:
+		day = 'Sunday';
+		break;
+	case 1:
+		day = 'Monday';
+		break;
+	case 2:
+		day = 'Tuesday';
+		break;
+	case 3:
+		day = 'Wednesday';
+		break;
+	case 4:
+		day = 'Thursday';
+		break;
+	case 5:
+		day = 'Friday';
+		break;
+	case 6:
+		day = 'Saturday';
+		break;
+	}
+	return day;
+}
+
+setDiningHall = function(diningHall) {
+	setTitle(diningHall);
+
+	if (diningHall == "Thorne") {
+		Session.set("locationId", 49);
+	} else if (diningHall == "Moulton") {
+		Session.set("locationId", 48);
+	}
+	
+	loadMenu();
+}

@@ -1,0 +1,22 @@
+<head>
+	<title>Bowdoin Dining & OneCard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 minimum-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Bowdoin Dining">
+	<meta name="mobile-web-app-capable" content="yes">
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+	{{> navDrawer}}
+
+	<div id='header'>
+		<label for='menu-checkbox' class="hamburger-menu"></label>
+		<h4 class="title">{{title}}</h4>
+	</div>
+	<div id='content'>
+		{{> Template.dynamic template=template}}
+	</div>
+	{{> Template.dynamic template=toolbar}}
+</body>
