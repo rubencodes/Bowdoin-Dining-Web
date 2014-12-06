@@ -190,23 +190,75 @@ loadMenu = function () {
 	var sDay = sunday.getDate() + 1;
 
 	var filename = sYear + "-" + sMonth + "-" + sDay + "-" + day;
-	var localCopy = localStorage.getItem(filename); //Session.get(filename);
+	var localCopy = getCachedCopy(filename);
 
 	if (!localCopy) {
 		$("body").append("<div class='spinner'></div>");
 		Meteor.call("getMenu", sYear, sMonth, sDay, day, function (error, result) {
 			if (result) {
-				localStorage.setItem(filename, result.content); //cache xml
+				cache(filename, result.content); //cache xml
 				parseMenu(result.content);
 			} else {
 				alert(error);
 			}
+			$(".spinner").remove();
 		});
-		$(".spinner").remove();
 	} else {
 		parseMenu(localCopy);
 	}
 	$("#Breakfast,#Brunch,#Lunch,#Dinner").removeAttr("disabled");
+}
+
+cache = function(filename, value) {
+	//first cache the xml
+	localStorage.setItem(filename, value); //cache xml
+	
+	//next, store the filename so we know to delete it later
+	var stringifiedFilenameCache = localStorage.getItem("filename-cache");
+	if(!stringifiedFilenameCache) {
+		stringifiedFilenameCache = "[]";
+	}
+
+	var filenameCache = JSON.parse(stringifiedFilenameCache);
+	filenameCache.push(filename);
+	localStorage.setItem("filename-cache", JSON.stringify(filenameCache));
+}
+
+getCachedCopy = function(filename) {
+	return localStorage.getItem(filename);
+}
+
+clearOldCache = function() {
+	//get current date
+	var date = new Date();
+	var day = date.getDay() + 1; //store day of week
+
+	//get date info of most recent Sunday
+	var sunday = new Date(date);
+	sunday.setDate(sunday.getDate() - day);
+	var sYear = sunday.getFullYear();
+	var sMonth = sunday.getMonth();
+	var sDay = sunday.getDate() + 1;
+	
+	//delete anything older than start of this week
+	var stringifiedFilenameCache = localStorage.getItem("filename-cache");
+	if(!stringifiedFilenameCache) {
+		stringifiedFilenameCache = "[]";
+	}
+
+	var filenameCache = JSON.parse(stringifiedFilenameCache);
+	for(i in filenameCache) {
+		filename = filenameCache[i];
+		var date = filename.split("-");
+		
+		//if this date already happened, delete it from cache
+		if(sYear > date[0] || 
+			 sYear == date[0] && sMonth > date[1] || 
+			 sYear == date[0] && sMonth == date[1] && sDay > date[2] || 
+			 sYear == date[0] && sMonth == date[1] && sDay == date[2] && day+1 > date[3]) {
+			localStorage.removeItem(filename);
+		}
+	}
 }
 
 parseMenu = function (xmlString) {

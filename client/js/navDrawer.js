@@ -18,5 +18,10 @@ Template.navDrawer.events({
 		setTitle("OneCard");
 		Session.set("template", "oneCard");
 		$("#menu-checkbox").attr("checked", false);
+	},
+	'click #HoursLink': function () {
+		setTitle("Hours");
+		Session.set("template", "hours");
+		$("#menu-checkbox").attr("checked", false);
 	}
 });

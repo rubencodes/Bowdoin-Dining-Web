@@ -11,6 +11,7 @@ Session.setDefault("dateOffset", 0);
 
 Template.body.rendered = function () {
 	$.getScript("/inobounce.min.js");
+	clearOldCache();
 }
 
 Template.body.helpers({
