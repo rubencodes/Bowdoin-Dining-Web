@@ -180,21 +180,21 @@ loadMenu = function () {
 	var date = new Date(); //get current date
 	var offset = Session.get("dateOffset"); //get target date offset
 	date.setDate(date.getDate() + offset); //get target date
-	var day = date.getDay() + 1; //store target day of week
+	var day = date.getDay(); //store target day of week
 
 	//get date info of most recent Sunday to target
 	var sunday = new Date(date);
 	sunday.setDate(sunday.getDate() - day); //get target date
 	var sYear = sunday.getFullYear();
 	var sMonth = sunday.getMonth();
-	var sDay = sunday.getDate() + 1;
+	var sDay = sunday.getDate();
 
-	var filename = sYear + "-" + sMonth + "-" + sDay + "-" + day;
+	var filename = sYear + "-" + sMonth + "-" + sDay + "-" + (day+1);
 	var localCopy = getCachedCopy(filename);
 
 	if (!localCopy) {
 		$("body").append("<div class='spinner'></div>");
-		Meteor.call("getMenu", sYear, sMonth, sDay, day, function (error, result) {
+		Meteor.call("getMenu", sYear, sMonth, sDay, day+1, function (error, result) {
 			if (result) {
 				cache(filename, result.content); //cache xml
 				parseMenu(result.content);

@@ -3,7 +3,6 @@ var BowdoinAPI = "https://gooseeye.bowdoin.edu/ws-csGoldShim/Service.asmx";
 Meteor.methods({
 	getMenu: function (sYear, sMonth, sDay, offset) {
 		this.unblock();
-
 		return HTTP.get("http://www.bowdoin.edu/atreus/lib/xml/" + sYear + "-" + sMonth + "-" + sDay + "/" + offset + ".xml");
 	},
 	getSOAPEnvelope: function (service) {
