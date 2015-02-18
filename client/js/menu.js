@@ -164,7 +164,7 @@ setToCurrentMeal = function () {
 	var now = new Date();
 	var hours = now.getHours();
 	var day = now.getDay();
-	if (hours < 11 && day > 0 && day < 6)
+	if (hours < 10 && day > 0 && day < 6)
 		setMeal("Breakfast");
 	else if (hours < 14) {
 		if (day === 0 || day === 6)
