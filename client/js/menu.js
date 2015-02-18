@@ -271,27 +271,29 @@ parseMenu = function (xmlString) {
 
 	var courses = {};
 	$xml.find("#" + meal + ">#" + locationId + ">menu>record").each(function (index) {
-		var course = $(this).find("course").text();
 		var itemName = $(this).find("webLongName").text();
-		var dietPattern = /\bNGI\b|\bVE\b|\bV\b|\bL\b/;
-		var dietAttributes = [];
-		while (found = dietPattern.exec(itemName)) {
-			itemName = itemName.replace(dietPattern, "");
-			dietAttributes.push(found.shift());
-		}
-		while (found = /\(|\)/.exec(itemName)) {
-			itemName = itemName.replace(/\(|\)/, "");
-		}
+		if (itemName != "..." && itemName != "Salad Bar") {
+			var course = $(this).find("course").text();
+			var dietPattern = /\bNGI\b|\bVE\b|\bV\b|\bL\b/;
+			var dietAttributes = [];
+			while (found = dietPattern.exec(itemName)) {
+				itemName = itemName.replace(dietPattern, "");
+				dietAttributes.push(found.shift());
+			}
+			while (found = /\(|\)/.exec(itemName)) {
+				itemName = itemName.replace(/\(|\)/, "");
+			}
 
-		var item = {
-			name: itemName,
-			attributes: dietAttributes
-		};
+			var item = {
+				name: itemName,
+				attributes: dietAttributes
+			};
 
-		if (courses[course] == null) {
-			courses[course] = [item];
-		} else {
-			courses[course].push(item);
+			if (courses[course] == null) {
+				courses[course] = [item];
+			} else {
+				courses[course].push(item);
+			}
 		}
 	});
 
