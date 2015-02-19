@@ -270,6 +270,10 @@ parseMenu = function (xmlString) {
 	$xml = $(xmlDoc);
 
 	var courses = {};
+	
+	//clear current menu
+	Session.set("courses", courses);
+	
 	$xml.find("#" + meal + ">#" + locationId + ">menu>record").each(function (index) {
 		var itemName = $(this).find("webLongName").text();
 		if (itemName != "..." && itemName != "Salad Bar") {
@@ -296,7 +300,7 @@ parseMenu = function (xmlString) {
 			}
 		}
 	});
-
+	
 	Session.set("courses", courses);
 	Session.set("courseNames", Object.keys(courses));
 	$("#content").scrollTop(0);
