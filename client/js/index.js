@@ -7,7 +7,11 @@
 Session.setDefault("template", "menu");
 Session.setDefault("filter", localStorage.getItem("filter"));
 Session.setDefault("firstLoad", true);
-Session.setDefault("dateOffset", 0);
+
+var now = new Date();
+Session.setDefault("month", now.getMonth());
+Session.setDefault("day", 	now.getDate());
+Session.setDefault("year",	now.getFullYear());
 
 Template.body.rendered = function () {
 	$.getScript("/inobounce.min.js");

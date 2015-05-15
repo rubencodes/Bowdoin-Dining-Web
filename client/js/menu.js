@@ -108,12 +108,33 @@ setMeal = function (meal) {
 	$("#" + meal).addClass("active");
 }
 
+//returns current offset, or resets to 0 if in the past
+getCurrentOffset = function() {
+	var now = new Date();
+	var dateCurrent = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+	var month = Session.get("month") || dateCurrent.getMonth();
+	var day 	= Session.get("day") 	 || dateCurrent.getDate();
+	var year 	= Session.get("year")	 || dateCurrent.getFullYear();
+	var dateShown = new Date(year, month, day);
+	
+	var one_day = 1000*60*60*24;
+	
+	return Math.max(Math.round((dateShown.getTime() - dateCurrent.getTime())/one_day), 0);
+}
+
+//adjusts date presented by a given delta
 setDate = function (delta) {
-	var offset = Session.get("dateOffset") + delta;
-	Session.set("dateOffset", offset);
+	var newOffset = getCurrentOffset() + delta;
+	var dateShown = new Date();
+	dateShown.setDate(dateShown.getDate() + newOffset);
+	
+	Session.set("month", dateShown.getMonth());
+	Session.set("day", 	 dateShown.getDate());
+	Session.set("year",	 dateShown.getFullYear());
 
 	//handles date offset and button status
-	switch (offset) {
+	switch (newOffset) {
 	case 0:
 		$("#back").attr("disabled", true);
 		break;
@@ -127,11 +148,9 @@ setDate = function (delta) {
 	}
 
 	//handles setting proper title for day
-	var date = new Date(); //get current date
-	date.setDate(date.getDate() + Session.get("dateOffset")); //get target date
-	var day = date.getDay();
+	var day = dateShown.getDay();
 
-	switch (Session.get("dateOffset")) {
+	switch (newOffset) {
 	case 0:
 		Session.set("dayName", "Today");
 		break;
@@ -174,11 +193,11 @@ setToCurrentMeal = function () {
 	} else setMeal("Dinner");
 }
 
-loadMenu = function () {
+loadMenu = function (date) {
 	$("#Breakfast,#Brunch,#Lunch,#Dinner").attr("disabled", true);
 	//get target date info
 	var date = new Date(); //get current date
-	var offset = Session.get("dateOffset"); //get target date offset
+	var offset = getCurrentOffset(); //get target date offset
 	date.setDate(date.getDate() + offset); //get target date
 	var day = date.getDay(); //store target day of week
 
@@ -199,7 +218,9 @@ loadMenu = function () {
 				cache(filename, result.content); //cache xml
 				parseMenu(result.content);
 			} else {
-				alert(error);
+				var courses = { "No Menu Available" : [{"name": "Check Your Network Connection", "attributes": []}] };
+				Session.set("courses", courses);
+				Session.set("courseNames", Object.keys(courses));
 			}
 			$(".spinner").remove();
 		});
