@@ -1,6 +1,6 @@
 Template.oneCard.rendered = function () {
 	Session.set("toolbar", "");
-	//loadOneCardData();
+	loadOneCardData();
 }
 
 loadOneCardData = function () {

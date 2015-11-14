@@ -1,244 +1,284 @@
 /* CSS declarations go here */
-html,body {
-	height: 100%;
-	background: #eee;
+
+html,
+body {
+  height: 100%;
+  background: #eee;
 }
-::-webkit-scrollbar { 
-    display: none; 
+
+::-webkit-scrollbar {
+  display: none;
 }
+
 .container {
-	background: #eee;
-	padding: 15px 10px;
+  background: #eee;
+  padding: 15px 10px;
 }
+
 .card {
-	width: 100%;
-	max-width: 400px;
-	margin: 0px auto 10px auto;
-	background: rgb(255, 255, 255);
-	padding: 10px 20px;
-	box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 0px auto 10px auto;
+  background: rgb(255, 255, 255);
+  padding: 10px 20px;
+  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1);
 }
+
 .card:last-of-type {
-	margin-bottom: 0px;
+  margin-bottom: 0px;
 }
+
 .card-title {
-	color: #777;
-	font-weight: 300;
-	font-size: 22px;
+  color: #777;
+  font-weight: 300;
+  font-size: 22px;
 }
+
 .mealOptions {
-	position: fixed;
-	top: 50px;
-	z-index: 1000;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  position: fixed;
+  top: 50px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
 }
+
 .dietFilters>.btn-group>button {
-	box-shadow: none;
+  box-shadow: none;
 }
+
 .menuItem {
-	width: 100%;
-	height: auto;
-	color: #000;
-	font-size: 14px;
-	padding: 8px 0px 4px 0px;
-	margin: 0;
+  width: 100%;
+  height: auto;
+  color: #000;
+  font-size: 14px;
+  padding: 8px 0px 4px 0px;
+  margin: 0;
+  position: relative;
+  display: table;
 }
+
 .attributes {
-	font-size: 12px;
-	color: gray;
+  font-size: 12px;
+  color: gray;
 }
+
+
 /* Toolbar */
 
 #header {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 1200;
-	height: 50px;
-	background-color: #000;
-	color: #fff;
-	text-align: center;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1200;
+  height: 50px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
 }
+
 .title {
-	line-height:30px;
-	width: 100%;
-	margin-left: -3em; /* Offsets hamburger button */
-	font-weight: normal;
+  line-height: 30px;
+  width: 100%;
+  margin-left: -3em;
+  /* Offsets hamburger button */
+  font-weight: normal;
 }
+
+
 /* Nav Drawer */
 
+
 /* Hamburger Button */
+
 .hamburger-menu {
   position: relative;
-	float: left;
-	height: 100%;
-	width: 3em;
-	cursor: pointer;
-	margin: 0;
+  float: left;
+  height: 100%;
+  width: 3em;
+  cursor: pointer;
+  margin: 0;
 }
+
 .hamburger-menu:before {
   content: "";
   position: absolute;
   width: 1.5em;
   height: 0.24em;
-	padding: 0;
-	left: 10px;
+  padding: 0;
+  left: 10px;
   top: 1.2em;
   background: white;
-  box-shadow: 
-    0 0.39em 0 0 white,
-    0 0.78em 0 0 white;
+  box-shadow: 0 0.39em 0 0 white, 0 0.78em 0 0 white;
 }
+
 #menu-checkbox {
-	display: none;
+  display: none;
 }
+
 #overlay {
-	display: none;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.9);
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
 }
+
 #menu {
-	position: fixed;
-	top: 50px;
-	left: 0;
-	z-index: 1100;
-	visibility: hidden;
-	width: 200px;
-	height: 100%;
-	background: #434343;
-	color: white;
-	margin: 0;
-	padding: 5px 0 0 0;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
-	-webkit-transform: translate3d(-100%, 0, 0);
-	transform: translate3d(-100%, 0, 0);
+  position: fixed;
+  top: 50px;
+  left: 0;
+  z-index: 1100;
+  visibility: hidden;
+  width: 200px;
+  height: 100%;
+  background: #434343;
+  color: white;
+  margin: 0;
+  padding: 5px 0 0 0;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  -webkit-transform: translate3d(-100%, 0, 0);
+  transform: translate3d(-100%, 0, 0);
 }
+
 #menu>a {
-	display: block;
-	width: 100%;
-	height: auto;
-	padding: 15px;
-	border-bottom: #333 solid 1px;
-	cursor: pointer;
-	color: #fff;
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 15px;
+  border-bottom: #333 solid 1px;
+  cursor: pointer;
+  color: #fff;
 }
+
 #menu>a:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 #content {
-	padding-bottom: 50px;
-	padding-top: 50px;
-	height: 100%;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-}
-.diningMenu {
-	padding-top: 50px;
-}
-#menu-checkbox:checked ~ #overlay {
-	display: block;
-}
-#menu-checkbox:checked ~ #menu {
-	visibility: visible;
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-}
-#menu-checkbox:checked ~ #header #three-lines {
-	position: relative;
+  padding-bottom: 50px;
+  padding-top: 50px;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* all dark navbars */
-.navbar-inverse {
-	background: #000;
+.diningMenu {
+  padding-top: 50px;
 }
+
+#menu-checkbox:checked ~ #overlay {
+  display: block;
+}
+
+#menu-checkbox:checked ~ #menu {
+  visibility: visible;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+#menu-checkbox:checked ~ #header #three-lines {
+  position: relative;
+}
+
+
+/* all dark navbars */
+
+.navbar-inverse {
+  background: #000;
+}
+
+
 /* Bottom Nav Bar*/
 
 .btn-menu-nav,
 .btn-menu-nav:hover,
 .btn-menu-nav:focus,
-.btn-menu-nav:active, 
+.btn-menu-nav:active,
 .btn-menu-nav:disabled,
 .between-buttons {
-	background: #000;
-	color: #fff;
-	border-radius: 0;
-	border: none;
-	height: 50px;
-	line-height: 50px;
-	text-align: center;
-	margin: 0 !important;
-	padding: 0;
+  background: #000;
+  color: #fff;
+  border-radius: 0;
+  border: none;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin: 0 !important;
+  padding: 0;
 }
+
 .btn-menu-nav:disabled {
-	background: #222 !important;
+  background: #222 !important;
 }
 
 .btn-meal,
 .btn-meal:active,
 .btn-meal:focus,
 .btn-meal:hover {
-	background: #000 !important;
-	color: #fff;
-	border-radius: 0;
-	border: none;
-	padding: 8px 0;
+  background: #000 !important;
+  color: #fff;
+  border-radius: 0;
+  border: none;
+  padding: 8px 0;
 }
+
 .btn-meal.active {
-	background: #333 !important;
+  background: #333 !important;
 }
 
 #PubMenuWrapper {
-	margin-bottom: 50px;
-	height: 100%;
-	width: 100%;
-	-webkit-overflow-scrolling: touch;
-	overflow-y: scroll;
+  margin-bottom: 50px;
+  height: 100%;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
 }
+
 #PubMenu {
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .btn {
-	border-radius: 0;
+  border-radius: 0;
 }
+
 .btn-group {
-	margin: 0;
+  margin: 0;
 }
+
 .btn-primary {
-	background: rgb(66, 133, 244);
-	border: none;
+  background: rgb(66, 133, 244);
+  border: none;
 }
+
 .btn-primary:hover {
-	background: rgb(0, 87, 231);
-	border: none;
+  background: rgb(0, 87, 231);
+  border: none;
 }
 
 .cornerLink {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	position: fixed;
-	bottom: 60px;
-	right: 15px;
-	background: #BBB;
-	text-align: center;
-	font-size: 25px;
-	line-height: 50px;
-	color: rgb(255, 255, 255);
-	cursor: pointer;
-	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3),0px 0px 1px rgba(0, 0, 0, 0.1),inset 0px 1px 0px rgba(255, 255, 255, 0.25),inset 0px -1px 0px rgba(0, 0, 0, 0.15);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 60px;
+  right: 15px;
+  background: #BBB;
+  text-align: center;
+  font-size: 25px;
+  line-height: 50px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3), 0px 0px 1px rgba(0, 0, 0, 0.1), inset 0px 1px 0px rgba(255, 255, 255, 0.25), inset 0px -1px 0px rgba(0, 0, 0, 0.15);
 }
+
 
 /*loading animation*/
 
@@ -246,50 +286,105 @@ html,body {
   width: 30px;
   height: 30px;
   background-color: #333;
-	position: fixed;
-	left: 50%;
-	margin-left: -15px;
-	top: 50%;
-	margin-top: -15px;
-
+  position: fixed;
+  left: 50%;
+  margin-left: -15px;
+  top: 50%;
+  margin-top: -15px;
   -webkit-animation: rotateplane 1.2s infinite ease-in-out;
   animation: rotateplane 1.2s infinite ease-in-out;
 }
 
 @-webkit-keyframes rotateplane {
-  0% { -webkit-transform: perspective(120px) }
-  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
-  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+  0% {
+    -webkit-transform: perspective(120px)
+  }
+  50% {
+    -webkit-transform: perspective(120px) rotateY(180deg)
+  }
+  100% {
+    -webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg)
+  }
 }
 
 @keyframes rotateplane {
-  0% { 
+  0% {
     transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
-  } 50% { 
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  }
+  50% {
     transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
-    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
-  } 100% { 
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+  }
+  100% {
     transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
     -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
   }
 }
 
 * {
-	font-family: 'Roboto', sans-serif;
-	-webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-
+  font-family: 'Roboto', sans-serif;
+  -webkit-user-select: none;
+  /* Chrome all / Safari all */
+  -moz-user-select: none;
+  /* Firefox all */
+  -ms-user-select: none;
+  /* IE 10+ */
   /* No support for these yet, use at own risk */
   -o-user-select: none;
   user-select: none;
 }
 
 .pub-menu {
-	width:100%;
-	height:100%;
-	border:none;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.heart {
+  width: 50px;
+  height: 50px;
+  margin-top: -15px;
+  position: relative;
+  background: url(https://cssanimation.rocks/assets/images/posts/steps/heart.png) no-repeat;
+  background-position: 0 0;
+  background-size: cover;
+  cursor: pointer;
+  animation: fave-heart 1s steps(28);
+}
+.table-cell {
+  display: table-cell;
+  vertical-align: top;
+}
+.table-cell:nth-child(1) {
+  width: 80%;
+}
+.table-cell:nth-child(2) {
+  width: 20%;
+}
+
+.heart:after {
+  content: attr(data-faves);
+  font-size: x-small;
+  font-weight: bold;
+  position: absolute;
+  bottom: 4px;
+  width: 100%;
+  text-align: center;
+}
+
+.clicked-heart {
+  background-position: right top;
+  transition: background 1s steps(28);
+}
+
+@keyframes fave-heart {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -2800px 0;
+  }
 }
 
 *:focus {

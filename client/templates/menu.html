@@ -1,54 +1,61 @@
 <template name="menu">
-	<div class="btn-group btn-group-justified mealOptions">
-		<div class="btn-group">
-			<button type="button" id="Breakfast" class="btn btn-meal">Breakfast</button>
-		</div>
-		<div class="btn-group">
-			<button type="button" id="Brunch" class="btn btn-meal">Brunch</button>
-		</div>
-		<div class="btn-group">
-			<button type="button" id="Lunch" class="btn btn-meal">Lunch</button>
-		</div>
-		<div class="btn-group">
-			<button type="button" id="Dinner" class="btn btn-meal">Dinner</button>
-		</div>
-	</div>
+  <div class="btn-group btn-group-justified mealOptions">
+    <div class="btn-group">
+      <button type="button" id="Breakfast" class="btn btn-meal">Breakfast</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="Brunch" class="btn btn-meal">Brunch</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="Lunch" class="btn btn-meal">Lunch</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" id="Dinner" class="btn btn-meal">Dinner</button>
+    </div>
+  </div>
 
-	<div class="container diningMenu">
-		<div class="card filters" style="display:none;">
-			<h4>Dietary Filters</h4>
-			<div class="btn-group btn-group-justified dietFilters">
-				<div class="btn-group">
-					<button type="button" id="Off" class="btn btn-default">Off</button>
-				</div>
-				<div class="btn-group">
-					<button type="button" id="V" class="btn btn-default">V</button>
-				</div>
-				<div class="btn-group">
-					<button type="button" id="VE" class="btn btn-default">VE</button>
-				</div>
-				<div class="btn-group">
-					<button type="button" id="NGI" class="btn btn-default">NGI</button>
-				</div>
-				<div class="btn-group">
-					<button type="button" id="L" class="btn btn-default">L</button>
-				</div>
-			</div>
-			<br><br>
-		</div>
-		
-		{{#each courseNames}}
-			<div class="card">
-				<h4 class="card-title">{{this}}</h4>
-				{{#each getCourse this}}
-					<div class="menuItem">
-						{{name}}<br>
-						<div class="attributes">{{formatList attributes}}</div>
-					</div>
-				{{/each}}
-			</div>
-		{{/each}}
-	</div>
-	
-	<div class="cornerLink icon ion-funnel"></div>
+  <div class="container diningMenu">
+    <div class="card filters" style="display:none;">
+      <h4>Dietary Filters</h4>
+      <div class="btn-group btn-group-justified dietFilters">
+        <div class="btn-group">
+          <button type="button" id="Off" class="btn btn-default">Off</button>
+        </div>
+        <div class="btn-group">
+          <button type="button" id="V" class="btn btn-default">V</button>
+        </div>
+        <div class="btn-group">
+          <button type="button" id="VE" class="btn btn-default">VE</button>
+        </div>
+        <div class="btn-group">
+          <button type="button" id="NGI" class="btn btn-default">NGI</button>
+        </div>
+        <div class="btn-group">
+          <button type="button" id="L" class="btn btn-default">L</button>
+        </div>
+      </div>
+      <br>
+      <br>
+    </div>
+
+    {{#each courseNames}}
+      <div class="card">
+        <h4 class="card-title">{{this}}</h4> 
+        {{#each getCourse this}}
+          <div class="menuItem">
+            <div class="table-cell">
+              {{name}}
+              <br>
+              <div class="attributes">{{formatList attributes}}</div>
+            </div>
+            <div class="table-cell">
+              <div class="heart {{isFave itemId}}" data-faves="{{getFaves itemId}}"></div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="cornerLink icon ion-funnel"></div>
 </template>

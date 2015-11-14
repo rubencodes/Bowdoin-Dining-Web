@@ -1,4 +1,8 @@
 {
 	"ntlm": "0.1.1",
-	"agentkeepalive": "0.2.3"
+	"agentkeepalive": "0.2.3",
+	"request": "2.60.0",
+	"httpntlm": "1.5.2",
+	"async": "0.2.10",
+	"httpreq": "0.4.13"
 }
