@@ -2,12 +2,15 @@ var BowdoinAPI = "https://gooseeye.bowdoin.edu/ws-csGoldShim/Service.asmx";
 
 Meteor.publish("favorites", function (itemIds) {
   itemIds = JSON.parse("["+itemIds+"]") || [];
-
-  return Favorites.find({
+  itemIds = itemIds.map(function(itemId) { return itemId.toString(); });
+  
+  var favorites = Favorites.find({
     itemId: {
       $in: itemIds
     }
   });
+  
+  return favorites;
 }, {
   url: "favorites/:0",
   httpMethod: "get"
@@ -83,45 +86,54 @@ Meteor.methods({
     });
   },
 
-  favorite: function (itemId) {
-    var item = Favorites.findOne({ itemId: itemId });
+});
 
-    if (item) {
-      //if it exists, update it
-      Favorites.update({
-        _id: item._id
-      }, {
-        $inc: {
-          favorites: 1
-        }
-      });
-    } else {
-      //if it doesn't exist, create it
-      Favorites.insert({
-        itemId: itemId,
+Meteor.method("favorite", function (itemId) {
+  var item = Favorites.findOne({ itemId: itemId });
+
+  if (item) {
+    //if it exists, update it
+    Favorites.update({
+      _id: item._id
+    }, {
+      $inc: {
         favorites: 1
-      });
-    }
-  },
-  unfavorite: function (itemId) {
-    var item = Favorites.findOne({ itemId: itemId });
+      }
+    });
+  } else {
+    //if it doesn't exist, create it
+    Favorites.insert({
+      itemId: itemId,
+      favorites: 1
+    });
+  }
+}, {
+  getArgsFromRequest: function (request) {
+    return request.body && Object.keys(request.body).length > 0 ? Object.keys(request.body) : [];
+  }
+});
 
-    if (item) {
-      //if it exists, update it
-      Favorites.update({
-        _id: item._id
-      }, {
-        $inc: {
-          favorites: item.favorites > 0 ? -1 : 0
-        }
-      });
-    } else {
-      //if it doesn't exist, create it
-      Favorites.insert({
-        itemId: itemId,
-        favorites: 0
-      });
-    }
+Meteor.method("unfavorite", function(itemId) {
+  var item = Favorites.findOne({ itemId: itemId });
+  if (item) {
+    //if it exists, update it
+    Favorites.update({
+      _id: item._id
+    }, {
+      $inc: {
+        favorites: item.favorites > 0 ? -1 : 0
+      }
+    });
+  } else {
+    //if it doesn't exist, create it
+    Favorites.insert({
+      itemId: itemId,
+      favorites: 0
+    });
+  }
+}, {
+  getArgsFromRequest: function (request) {
+    return request.body && Object.keys(request.body).length > 0 ? Object.keys(request.body) : [];
   }
 });
 
