@@ -346,7 +346,7 @@ body {
   height: 50px;
   margin-top: -15px;
   position: relative;
-  background: url(https://cssanimation.rocks/assets/images/posts/steps/heart.png) no-repeat;
+  background: url(heart.png) no-repeat;
   background-position: 0 0;
   background-size: cover;
   cursor: pointer;
