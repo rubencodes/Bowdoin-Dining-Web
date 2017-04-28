@@ -1,14 +1,16 @@
 App.info({
   name: 'Bowdoin Dining',
   description: 'Access the Bowdoin College Dining Hall Menus.',
-  version: '1.2.6'
+  version: '1.5.0'
 });
 
 App.icons({
   'android_ldpi': 'resources/icons/ldpi.png',
   'android_mdpi': 'resources/icons/mdpi.png',
   'android_hdpi': 'resources/icons/hdpi.png',
-  'android_xhdpi': 'resources/icons/xhdpi.png'
+  'android_xhdpi': 'resources/icons/xhdpi.png',
+  'android_xxhdpi': 'resources/icons/xxhdpi.png',
+  'android_xxxhdpi': 'resources/icons/xxxhdpi.png'
 });
 
 App.launchScreens({
