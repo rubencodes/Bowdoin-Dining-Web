@@ -31,6 +31,12 @@
           <button type="button" id="NGI" class="btn btn-default">NGI</button>
         </div>
         <div class="btn-group">
+          <button type="button" id="GF" class="btn btn-default">GF</button>
+        </div>
+        <div class="btn-group">
+          <button type="button" id="DF" class="btn btn-default">DF</button>
+        </div>
+        <div class="btn-group">
           <button type="button" id="L" class="btn btn-default">L</button>
         </div>
       </div>
@@ -40,7 +46,7 @@
 
     {{#each courseNames}}
       <div class="card">
-        <h4 class="card-title">{{this}}</h4> 
+        <h4 class="card-title">{{this}}</h4>
         {{#each getCourse this}}
           <div class="menuItem">
             <div class="table-cell">

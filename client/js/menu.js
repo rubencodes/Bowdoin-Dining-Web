@@ -4,7 +4,7 @@ Template.menu.created = function () {
 
 Template.menu.rendered = function () {
   Meteor.subscribe("getFavoriteCount");
-  
+
   var template = Template.parentData();
   if (!template.hasRendered) {
     template.hasRendered = true;
@@ -61,7 +61,7 @@ Template.menu.helpers({
   },
   isFave: function(itemId) {
     var favorites = getLocalFavorites();
-  
+
    return favorites.indexOf(itemId) > -1 ? "clicked-heart" : "";
   }
 });
@@ -71,7 +71,7 @@ Template.menu.events({
     //unfavorite item
     if($(event.target).hasClass("clicked-heart")) {
       unfavoriteItem(this.itemId);
-    } 
+    }
     //favorite item
     else {
       $(event.target).addClass("clicked-heart");
@@ -113,6 +113,12 @@ Template.menu.events({
   },
   'click #VE': function () {
     enableFilter("VE");
+  },
+  'click #GF': function () {
+    enableFilter("GF");
+  },
+  'click #DF': function () {
+    enableFilter("DF");
   },
   'click #NGI': function () {
     enableFilter("NGI");
@@ -249,7 +255,7 @@ loadMenu = function (date) {
         Session.set("courses", courses);
         Session.set("courseNames", Object.keys(courses));
       }
-      
+
       if (result) {
         var xmlDoc = $.parseXML(result);
         cache(filename, result.content); //cache xml
@@ -333,11 +339,11 @@ parseMenu = function (xmlString) {
   $xml.find("#" + meal + ">#" + locationId + ">menu>record").each(function (index) {
     var itemName = $(this).find("webLongName").text();
     var itemId = $(this).find("itemID").text();
-    
+
     //filter out things we dont' care about
     if (itemName != "..." && itemName != "Salad Bar" && itemName != "Salads") {
       var course = $(this).find("course").text(); //get course this belonds to
-      var dietPattern = /\bNGI\b|\bVE\b|\bV\b|\bL\b/;
+      var dietPattern = /\bNGI\b|\DF\b|\GF\b|\bVE\b|\bV\b|\bL\b/;
       var dietAttributes = [];
       while (found = dietPattern.exec(itemName)) {
         itemName = itemName.replace(dietPattern, "");
@@ -369,7 +375,7 @@ parseMenu = function (xmlString) {
 enableFilter = function (filter) {
   Session.set("filter", filter);
   localStorage.setItem("filter", filter);
-  $("#V,#VE,#Off,#NGI,#L").removeClass("active");
+  $("#V,#VE,#Off,#NGI,#GF,#DF,#L").removeClass("active");
   $("#" + filter).addClass("active");
 }
 
@@ -415,10 +421,10 @@ setDiningHall = function (diningHall) {
 
 favoriteItem = function(itemId) {
   var favorites = getLocalFavorites();
-  
+
   if(favorites.indexOf(itemId) == -1) {
     Meteor.call("favorite", itemId);
-    
+
     favorites.push(itemId);
     setLocalFavorites(favorites);
   }
@@ -426,11 +432,11 @@ favoriteItem = function(itemId) {
 
 unfavoriteItem = function(itemId) {
   var favorites = getLocalFavorites();
-  
+
   var index = favorites.indexOf(itemId);
   if(index > -1) {
     Meteor.call("unfavorite", itemId);
-    
+
     favorites.splice(index, 1);
     setLocalFavorites(favorites);
   }
