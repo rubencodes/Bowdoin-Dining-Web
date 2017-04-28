@@ -3,13 +3,13 @@ var BowdoinAPI = "https://gooseeye.bowdoin.edu/ws-csGoldShim/Service.asmx";
 Meteor.publish("favorites", function (itemIds) {
   itemIds = JSON.parse("["+itemIds+"]") || [];
   itemIds = itemIds.map(function(itemId) { return itemId.toString(); });
-  
+
   var favorites = Favorites.find({
     itemId: {
       $in: itemIds
     }
   });
-  
+
   return favorites;
 }, {
   url: "favorites/:0",
@@ -23,7 +23,7 @@ Meteor.publish("getFavoriteCount", function () {
 Meteor.methods({
   getMenu: function (sYear, sMonth, sDay, offset) {
     this.unblock();
-    var url = "http://www.bowdoin.edu/atreus/lib/xml/" + sYear + "-" + sMonth + "-" + sDay + "/" + offset + ".xml";
+    var url = "https://www.bowdoin.edu/atreus/lib/xml/" + sYear + "-" + sMonth + "-" + sDay + "/" + offset + ".xml";
 
     return HTTP.get(url);
   },

@@ -13,6 +13,12 @@ Session.setDefault("month", now.getMonth());
 Session.setDefault("day", 	now.getDate());
 Session.setDefault("year",	now.getFullYear());
 
+Meteor.startup(() => {
+	navigator.serviceWorker.register('/sw.js')
+		.then()
+		.catch(error => console.log('ServiceWorker registration failed: ', err));
+});
+
 Template.body.rendered = function () {
 	$.getScript("/inobounce.min.js");
 	clearOldCache();

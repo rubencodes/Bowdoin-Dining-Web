@@ -7,11 +7,11 @@
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="theme-color" content="#000">
 	<meta name="msapplication-navbutton-color" content="#000">
-	<link rel="manifest" href="/manifest.json">
+	<link rel="manifest" href="pwa_manifest.json">
 	<link rel="apple-touch-icon" sizes="152x152" href="icons/152.png">
 	<link rel="apple-touch-icon" sizes="167x167" href="icons/167.png">
 	<link rel="apple-touch-icon" sizes="180x180" href="icons/180.png">
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
   <link href="css/ionicons.css" rel="stylesheet" type="text/css" />
 	<link rel="icon" type="image/png" href="favicon.png">
 </head>
@@ -19,6 +19,9 @@
 <body>
 	{{> navDrawer}}
 
+	<noscript>
+		<h1>Error: JavaScript must be enabled.</h1>
+	</noscript>
 	<div id='header'>
 		<label for='menu-checkbox' class="hamburger-menu"></label>
 		<h4 class="title">{{title}}</h4>
